@@ -1,0 +1,19 @@
+{
+  "name": "bot-guruh",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
