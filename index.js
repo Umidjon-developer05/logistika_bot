@@ -1,5 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const schedule = require("node-schedule");
+const { default: job } = require("./cron");
+require("dotenv").config();
 
 const TOKEN = "8091561842:AAHcM8fFY2hjtY2L5sxSVI0hlS6nv1N-CP4"; // BotFather'dan olasan
 const ADMIN_ID = 6038292163; // Admin Telegram ID
@@ -67,3 +69,6 @@ bot.on("message", (msg) => {
     step = 3; // kutish holati
   }
 });
+
+job.start(); // Cron jobni ishga tushirish
+console.log("Cron job started. GET request will be sent every 14 minutes.");

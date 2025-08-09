@@ -13,6 +13,9 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "cron": "^4.3.3",
+    "dotenv": "^17.2.1",
+    "https": "^1.0.0",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.66.0"
   }
