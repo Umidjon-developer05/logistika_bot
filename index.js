@@ -1,35 +1,54 @@
 const TelegramBot = require("node-telegram-bot-api");
 const schedule = require("node-schedule");
 const { default: job } = require("./cron");
+const express = require("express");
 require("dotenv").config();
 
-const TOKEN = "8091561842:AAHcM8fFY2hjtY2L5sxSVI0hlS6nv1N-CP4"; // BotFather'dan olasan
-const ADMIN_ID = 6038292163; // Admin Telegram ID
-const groupIds = [-1002206637188]; // Guruh ID'lar
+const TOKEN = "8091561842:AAHcM8fFY2hjtY2L5sxSVI0hlS6nv1N-CP4";
+const ADMIN_ID = 6038292163;
+const groupIds = [-1002206637188];
 
 const bot = new TelegramBot(TOKEN, { polling: true });
+const app = express();
+
+const PORT = 3000;
+app.get("/", (req, res) => {
+  res.send("Bot ishlayapti 🚀");
+});
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 let step = 0;
 let tempMessage = "";
 let tempMinutes = null;
 
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  if (chatId !== ADMIN_ID) {
+    return bot.sendMessage(chatId, "❌ Sizda ruxsat yo‘q.");
+  }
+  bot.sendMessage(
+    chatId,
+    "👋 Salom! Botga xush kelibsiz. Iltimos, yuboriladigan xabarni tayyorlang."
+  );
+  step = 0;
+});
+
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  // Faqat admin ishlata oladi
   if (chatId !== ADMIN_ID) {
     return bot.sendMessage(chatId, "❌ Sizda ruxsat yo‘q.");
   }
 
-  // 0-bosqich: boshlanish
   if (step === 0) {
     bot.sendMessage(chatId, "📩 Yuboriladigan matnni kiriting:");
     step = 1;
     return;
   }
 
-  // 1-bosqich: matn qabul qilish
   if (step === 1) {
     tempMessage = text;
     bot.sendMessage(chatId, "⏳ Necha minutdan keyin yuboray?");
@@ -37,7 +56,6 @@ bot.on("message", (msg) => {
     return;
   }
 
-  // 2-bosqich: vaqtni qabul qilish
   if (step === 2) {
     tempMinutes = parseInt(text);
 
@@ -60,15 +78,14 @@ bot.on("message", (msg) => {
           .catch((err) => console.error(`❌ Xatolik (${gid}):`, err.message));
       });
 
-      // Reset
       step = 0;
       tempMessage = "";
       tempMinutes = null;
     });
 
-    step = 3; // kutish holati
+    step = 3;
   }
 });
 
-job.start(); // Cron jobni ishga tushirish
+job.start();
 console.log("Cron job started. GET request will be sent every 14 minutes.");
