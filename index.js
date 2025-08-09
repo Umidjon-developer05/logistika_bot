@@ -28,11 +28,6 @@ bot.onText(/\/start/, (msg) => {
   if (chatId !== ADMIN_ID) {
     return bot.sendMessage(chatId, "❌ Sizda ruxsat yo‘q.");
   }
-  bot.sendMessage(
-    chatId,
-    "👋 Salom! Botga xush kelibsiz. Iltimos, yuboriladigan xabarni tayyorlang."
-  );
-  step = 0;
 });
 
 bot.on("message", (msg) => {
