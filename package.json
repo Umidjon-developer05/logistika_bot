@@ -15,6 +15,7 @@
   "dependencies": {
     "cron": "^4.3.3",
     "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "https": "^1.0.0",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.66.0"
