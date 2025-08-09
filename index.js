@@ -34,10 +34,6 @@ bot.on("message", (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  if (chatId !== ADMIN_ID) {
-    return bot.sendMessage(chatId, "❌ Sizda ruxsat yo‘q.");
-  }
-
   if (step === 0) {
     bot.sendMessage(chatId, "📩 Yuboriladigan matnni kiriting:");
     step = 1;
